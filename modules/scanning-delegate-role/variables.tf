@@ -1,0 +1,22 @@
+variable "iam_role_name" {
+  description = "Name to use on IAM role created"
+  type        = string
+  default     = "DatadogSideScannerDelegateRole"
+}
+
+variable "iam_role_path" {
+  description = "IAM role path"
+  type        = string
+  default     = null
+}
+
+variable "scanner_role_arn" {
+  description = "ARN of the role allowed to assume this role"
+  type = string
+}
+
+variable "tags" {
+  description = "A map of additional tags to add to the IAM role/profile created"
+  type        = map(string)
+  default     = {}
+}
