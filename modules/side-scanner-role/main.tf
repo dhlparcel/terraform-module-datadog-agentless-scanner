@@ -24,7 +24,7 @@ resource "aws_iam_role" "role" {
   path        = var.iam_role_path
   description = "Role used by the Datadog Side-Scanner instance"
 
-  assume_role_policy    = data.aws_iam_policy_document.assume_role_policy.json
+  assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 
   tags = merge(var.tags, local.dd_tags)
 }
@@ -32,8 +32,8 @@ resource "aws_iam_role" "role" {
 resource "aws_iam_instance_profile" "profile" {
   role = aws_iam_role.role.name
 
-  name        = var.iam_role_name
-  path        = var.iam_role_path
+  name = var.iam_role_name
+  path = var.iam_role_path
 
   tags = merge(var.tags, local.dd_tags)
 

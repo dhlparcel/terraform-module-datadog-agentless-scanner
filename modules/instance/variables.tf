@@ -35,7 +35,7 @@ variable "vpc_security_group_ids" {
 
 variable "iam_instance_profile" {
   description = "IAM Instance Profile to launch the instance with. Specified as the name of the Instance Profile"
-  type = string
+  type        = string
 }
 
 variable "key_name" {

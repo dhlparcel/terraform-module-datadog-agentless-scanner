@@ -5,35 +5,39 @@ locals {
   }
 }
 
-data "aws_iam_policy_document" "scanning_policy" {
+data "aws_iam_policy_document" "scanning_policy_document" {
   statement {
-    sid     = "AllowSideScanningEBSSnapshots"
+    sid    = "AllowSideScanningEBSSnapshots"
     effect = "Allow"
     actions = [
-				"ebs:GetSnapshotBlock",
-				"ebs:ListChangedBlocks",
-				"ebs:ListSnapshotBlocks",
-				"ec2:CopySnapshot",
-				"ec2:CreateSnapshot",
-				"ec2:CreateTags",
-				"ec2:DeleteSnapshot",
-				"ec2:DescribeImportSnapshotTasks",
-				"ec2:DescribeSnapshotAttribute",
-				"ec2:DescribeSnapshots",
-				"ec2:DescribeSnapshotTierStatus",
-				"ec2:ImportSnapshot"
-			]
+      "ebs:GetSnapshotBlock",
+      "ebs:ListChangedBlocks",
+      "ebs:ListSnapshotBlocks",
+      "ec2:CopySnapshot",
+      "ec2:CreateSnapshot",
+      "ec2:CreateTags",
+      "ec2:DeleteSnapshot",
+      "ec2:DescribeImportSnapshotTasks",
+      "ec2:DescribeSnapshotAttribute",
+      "ec2:DescribeSnapshots",
+      "ec2:DescribeSnapshotTierStatus",
+      "ec2:ImportSnapshot"
+    ]
     resources = ["*"]
   }
 
   statement {
-    sid = "GetLambdaDetails"
-    effect = "Allow"
-    actions = [
-				"lambda:GetFunction"
-			]
+    sid       = "GetLambdaDetails"
+    effect    = "Allow"
+    actions   = ["lambda:GetFunction"]
     resources = ["*"]
   }
+}
+
+resource "aws_iam_policy" "scanning_policy" {
+  name   = var.iam_policy_name
+  path   = var.iam_policy_path
+  policy = data.aws_iam_policy_document.scanning_policy_document.json
 }
 
 data "aws_iam_policy_document" "assume_role_policy" {
@@ -53,14 +57,12 @@ resource "aws_iam_role" "role" {
   path        = var.iam_role_path
   description = "Role assumed by the Datadog Side-Scanner agent to perform scans"
 
-  assume_role_policy    = data.aws_iam_policy_document.assume_role_policy.json
+  assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 
   tags = merge(var.tags, local.dd_tags)
 }
 
 resource "aws_iam_role_policy_attachment" "attachment" {
-  policy_arn = aws_iam_policy_document.scanning_policy.arn
+  policy_arn = aws_iam_policy.scanning_policy.arn
   role       = aws_iam_role.role.name
 }
-
-

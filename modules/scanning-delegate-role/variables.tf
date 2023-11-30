@@ -4,15 +4,27 @@ variable "iam_role_name" {
   default     = "DatadogSideScannerDelegateRole"
 }
 
+variable "iam_policy_name" {
+  description = "Name to use on IAM policy created"
+  type        = string
+  default     = "DatadogSideScannerDelegateRolePolicy"
+}
+
 variable "iam_role_path" {
   description = "IAM role path"
   type        = string
   default     = null
 }
 
+variable "iam_policy_path" {
+  description = "IAM policy path"
+  type        = string
+  default     = null
+}
+
 variable "scanner_role_arn" {
   description = "ARN of the role allowed to assume this role"
-  type = string
+  type        = string
 }
 
 variable "tags" {
