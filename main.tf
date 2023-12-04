@@ -1,3 +1,5 @@
+data "aws_region" "current" {}
+
 // Role attached to the side-scanner instance
 module "side_scanner_role" {
   source = "./modules/side-scanner-role"
@@ -29,17 +31,14 @@ resource "aws_iam_role_policy_attachment" "attachment" {
 }
 
 module "user_data" {
-  for_each = var.subnet_ids
   source   = "./modules/user_data"
-  hostname = "side-scanning-${each.key}"
-  api_key  = "hello"
+  hostname = "side-scanning-${data.aws_region.current.name}"
+  api_key  = var.api_key
 }
 
 module "instance" {
-  for_each = var.subnet_ids
   source   = "./modules/instance"
-
-  user_data            = module.user_data[each.key].install_sh
+  user_data            = module.user_data.install_sh
   iam_instance_profile = module.side_scanner_role.instance_profile.name
-  subnet_id            = each.value
+  subnet_id            = var.subnet_id
 }
