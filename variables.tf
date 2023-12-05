@@ -11,5 +11,5 @@ variable "site" {
 
 variable "instance_profile_name" {
   description = "value"
-  type = string
+  type        = string
 }

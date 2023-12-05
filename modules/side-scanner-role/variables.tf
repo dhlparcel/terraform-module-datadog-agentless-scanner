@@ -12,8 +12,8 @@ variable "iam_role_path" {
 
 variable "account_roles" {
   description = "List of cross accounts roles ARN that the Datadog side-scanner can assume"
-  type = list(string)
-  default = []
+  type        = list(string)
+  default     = []
 }
 
 variable "tags" {
