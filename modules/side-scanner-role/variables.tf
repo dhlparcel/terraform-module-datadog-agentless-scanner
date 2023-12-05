@@ -10,6 +10,12 @@ variable "iam_role_path" {
   default     = null
 }
 
+variable "account_roles" {
+  description = "List of cross accounts roles ARN that the Datadog side-scanner can assume"
+  type = list(string)
+  default = []
+}
+
 variable "tags" {
   description = "A map of additional tags to add to the IAM role/profile created"
   type        = map(string)

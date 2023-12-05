@@ -8,3 +8,8 @@ variable "site" {
   type        = string
   default     = "datadoghq.com"
 }
+
+variable "instance_profile_name" {
+  description = "value"
+  type = string
+}

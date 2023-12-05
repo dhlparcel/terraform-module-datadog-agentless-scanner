@@ -41,3 +41,22 @@ resource "aws_iam_instance_profile" "profile" {
     create_before_destroy = true
   }
 }
+
+data "aws_iam_policy_document" "assume_policy_document" {
+  statement {
+    sid       = "AssumeCrossAccountScanningRole"
+    effect    = "Allow"
+    actions   = ["sts:AssumeRole"]
+    resources = var.account_roles
+  }
+}
+
+resource "aws_iam_policy" "assume_policy" {
+  name   = "DatadogSideScannerAgentPolicy"
+  policy = data.aws_iam_policy_document.assume_policy_document.json
+}
+
+resource "aws_iam_role_policy_attachment" "attachment" {
+  policy_arn = aws_iam_policy.assume_policy.arn
+  role       = module.side_scanner_role.role.name
+}
