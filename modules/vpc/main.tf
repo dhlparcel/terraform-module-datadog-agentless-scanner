@@ -3,12 +3,12 @@ locals {
     Datadog     = "true"
     SideScanner = "true"
   }
-  public_cidr = cidrsubnet(var.cidr, 3, 0)
+  public_cidr  = cidrsubnet(var.cidr, 3, 0)
   private_cidr = cidrsubnet(var.cidr, 3, 4)
 }
 
 resource "aws_vpc" "vpc" {
-  cidr_block           = var.cidr
+  cidr_block = var.cidr
 
   tags = merge({ "Name" = var.name }, var.tags, local.dd_tags)
 }
@@ -20,14 +20,14 @@ resource "aws_internet_gateway" "internet_gateway" {
 }
 
 resource "aws_subnet" "public" {
-  vpc_id            = aws_vpc.vpc.id
-  cidr_block        = local.public_cidr
+  vpc_id     = aws_vpc.vpc.id
+  cidr_block = local.public_cidr
 
   tags = merge({ "Name" = "${var.name}-public" }, var.tags, local.dd_tags)
 }
 
 resource "aws_eip" "nat" {
- domain = "vpc"
+  domain = "vpc"
 
   tags = merge({ "Name" = var.name }, var.tags, local.dd_tags)
 }
@@ -37,7 +37,7 @@ resource "aws_nat_gateway" "nat_gateway" {
   subnet_id     = aws_subnet.public.id
   depends_on    = [aws_internet_gateway.internet_gateway]
 
-tags = merge({ "Name" = "${var.name}" }, var.tags, local.dd_tags)
+  tags = merge({ "Name" = "${var.name}" }, var.tags, local.dd_tags)
 }
 
 resource "aws_route_table" "public" {
@@ -58,8 +58,8 @@ resource "aws_route_table_association" "public" {
 }
 
 resource "aws_subnet" "private" {
-  vpc_id            = aws_vpc.vpc.id
-  cidr_block        = local.private_cidr
+  vpc_id     = aws_vpc.vpc.id
+  cidr_block = local.private_cidr
 
   tags = merge({ "Name" = "${var.name}-private" }, var.tags, local.dd_tags)
 }
