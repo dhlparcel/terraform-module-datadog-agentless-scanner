@@ -30,6 +30,10 @@ resource "aws_iam_role_policy_attachment" "attachment" {
   role       = module.side_scanner_role.role.name
 }
 
+module "vpc" {
+  source   = "./modules/vpc"
+}
+
 module "user_data" {
   source   = "./modules/user_data"
   hostname = "side-scanning-${data.aws_region.current.name}"
@@ -40,5 +44,5 @@ module "instance" {
   source   = "./modules/instance"
   user_data            = module.user_data.install_sh
   iam_instance_profile = module.side_scanner_role.instance_profile.name
-  subnet_id            = var.subnet_id
+  subnet_id            = module.vpc.private_subnet.id
 }
