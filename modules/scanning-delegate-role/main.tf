@@ -5,6 +5,8 @@ locals {
   }
 }
 
+data "aws_partition" "current" {}
+
 data "aws_iam_policy_document" "scanning_policy_document" {
   statement {
     sid    = "AllowSideScanningEBSSnapshots"
@@ -23,14 +25,17 @@ data "aws_iam_policy_document" "scanning_policy_document" {
       "ec2:DescribeSnapshotTierStatus",
       "ec2:ImportSnapshot"
     ]
-    resources = ["*"]
+    resources = [
+      "arn:${data.aws_partition.current.partition}:ec2:*:*:volume/*",
+      "arn:${data.aws_partition.current.partition}:ec2:*:*:snapshot/*"
+    ]
   }
 
   statement {
     sid       = "GetLambdaDetails"
     effect    = "Allow"
     actions   = ["lambda:GetFunction"]
-    resources = ["*"]
+    resources = ["arn:${data.aws_partition.current.partition}:lambda:*:*:function:*"]
   }
 }
 
