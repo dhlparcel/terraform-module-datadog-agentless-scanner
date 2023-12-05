@@ -5,5 +5,5 @@ output "vpc" {
 
 output "role" {
   description = "The Datadog side-scanner role created"
-  value       = aws_iam_role.role
+  value       = module.side_scanner_role.role
 }
