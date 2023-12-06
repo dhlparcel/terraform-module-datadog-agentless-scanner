@@ -29,6 +29,5 @@ module "sidescanner" {
   source = "github.com/DataDog/terraform-datadog-sidescanner"
 
   api_key               = var.api_key
-  site                  = var.site
   instance_profile_name = module.side_scanner_role.instance_profile.name
 }

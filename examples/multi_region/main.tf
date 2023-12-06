@@ -38,7 +38,6 @@ module "sidescanner" {
   }
 
   api_key               = var.api_key
-  site                  = var.site
   instance_profile_name = module.side_scanner_role.instance_profile.name
 }
 
@@ -49,6 +48,5 @@ module "sidescanner" {
   }
 
   api_key               = var.api_key
-  site                  = var.site
   instance_profile_name = module.side_scanner_role.instance_profile.name
 }

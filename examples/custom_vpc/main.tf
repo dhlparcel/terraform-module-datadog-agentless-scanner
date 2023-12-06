@@ -30,7 +30,6 @@ module "user_data" {
 
   hostname = "side-scanning-us-east-1"
   api_key  = var.api_key
-  site     = var.site
 }
 
 module "instance" {

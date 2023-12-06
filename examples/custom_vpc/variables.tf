@@ -3,12 +3,6 @@ variable "api_key" {
   type        = string
 }
 
-variable "site" {
-  description = "By default the Agent sends its data to Datadog US site. If your organization is on another site, you must update it. See https://docs.datadoghq.com/getting_started/site/"
-  type        = string
-  default     = "datadoghq.com"
-}
-
 variable "subnet_id" {
   description = "The VPC Subnet ID to launch in"
   type        = string
