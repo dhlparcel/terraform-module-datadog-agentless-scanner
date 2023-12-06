@@ -37,9 +37,10 @@ resource "aws_eip" "nat" {
 resource "aws_nat_gateway" "nat_gateway" {
   allocation_id = aws_eip.nat.id
   subnet_id     = aws_subnet.public.id
-  depends_on    = [aws_internet_gateway.internet_gateway]
 
   tags = merge({ "Name" = "${var.name}" }, var.tags, local.dd_tags)
+
+  depends_on = [aws_internet_gateway.internet_gateway]
 }
 
 resource "aws_route_table" "public" {
@@ -51,7 +52,7 @@ resource "aws_route_table" "public" {
 resource "aws_route" "public" {
   route_table_id         = aws_route_table.public.id
   destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = aws_nat_gateway.nat_gateway.id
+  gateway_id             = aws_internet_gateway.internet_gateway.id
 }
 
 resource "aws_route_table_association" "public" {
