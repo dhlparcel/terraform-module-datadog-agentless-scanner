@@ -11,6 +11,12 @@ terraform {
 
 provider "aws" {
   region = "us-east-1"
+  alias  = "us"
+}
+
+provider "aws" {
+  region = "eu-central-1"
+  alias  = "eu"
 }
 
 module "side_scanner_role" {
@@ -27,6 +33,20 @@ module "delegate_role" {
 
 module "sidescanner" {
   source = "github.com/DataDog/terraform-datadog-sidescanner"
+  providers = {
+    aws = aws.us
+  }
+
+  api_key               = var.api_key
+  site                  = var.site
+  instance_profile_name = module.side_scanner_role.instance_profile.name
+}
+
+module "sidescanner" {
+  source = "github.com/DataDog/terraform-datadog-sidescanner"
+  providers = {
+    aws = aws.eu
+  }
 
   api_key               = var.api_key
   site                  = var.site

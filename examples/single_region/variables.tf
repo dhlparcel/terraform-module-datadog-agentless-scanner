@@ -1,8 +1,3 @@
-variable "hostname" {
-  description = "Specifies the hostname the side-scanning agent will report as"
-  type        = string
-}
-
 variable "api_key" {
   description = "Specifies the API keys required by the Datadog Agent to submit vulnerabilities to Datadog"
   type        = string

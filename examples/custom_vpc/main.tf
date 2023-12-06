@@ -25,10 +25,18 @@ module "delegate_role" {
   scanner_role_arn = module.side_scanner_role.role.arn
 }
 
-module "sidescanner" {
-  source = "github.com/DataDog/terraform-datadog-sidescanner"
+module "user_data" {
+  source = "github.com/DataDog/terraform-datadog-sidescanner//modules/user_data"
 
-  api_key               = var.api_key
-  site                  = var.site
-  instance_profile_name = module.side_scanner_role.instance_profile.name
+  hostname = "side-scanning-us-east-1"
+  api_key  = var.api_key
+  site     = var.site
+}
+
+module "instance" {
+  source = "github.com/DataDog/terraform-datadog-sidescanner//modules/instance"
+
+  user_data            = module.user_data.install_sh
+  iam_instance_profile = module.side_scanner_role.profile.name
+  subnet_id            = var.subnet_id
 }
