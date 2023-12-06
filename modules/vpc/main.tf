@@ -8,7 +8,9 @@ locals {
 }
 
 resource "aws_vpc" "vpc" {
-  cidr_block = var.cidr
+  cidr_block           = var.cidr
+  enable_dns_support   = true # required for aws_vpc_endpoint
+  enable_dns_hostnames = true # ditto
 
   tags = merge({ "Name" = var.name }, var.tags, local.dd_tags)
 }
@@ -79,4 +81,69 @@ resource "aws_route" "private" {
 resource "aws_route_table_association" "private" {
   subnet_id      = aws_subnet.private.id
   route_table_id = aws_route_table.private.id
+}
+
+data "aws_vpc_endpoint_service" "s3" {
+  service      = "s3"
+  service_type = "Gateway"
+}
+
+resource "aws_vpc_endpoint" "s3" {
+  service_name      = data.aws_vpc_endpoint_service.s3.service_name
+  vpc_endpoint_type = data.aws_vpc_endpoint_service.s3.service_type
+  vpc_id            = aws_vpc.vpc.id
+
+  tags = merge(var.tags, local.dd_tags)
+}
+
+resource "aws_security_group" "endpoint_sg" {
+  name        = "${var.name}-vpc-endpoints"
+  description = "Allow TLS inbound traffic from VPC"
+  vpc_id      = module.vpc.vpc_id
+
+  ingress {
+    description = "TLS from VPC"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = [module.vpc.vpc_cidr_block]
+  }
+
+  tags = merge(var.tags, local.dd_tags)
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+data "aws_vpc_endpoint_service" "lambda" {
+  service      = "lambda"
+  service_type = "Interface"
+}
+
+resource "aws_vpc_endpoint" "lambda" {
+  service_name        = data.aws_vpc_endpoint_service.lambda.service_name
+  vpc_endpoint_type   = data.aws_vpc_endpoint_service.lambda.service_type
+  vpc_id              = aws_vpc.vpc.id
+  subnet_ids          = [aws_subnet.private.id]
+  security_group_ids  = [aws_security_group.endpoint_sg.id]
+  private_dns_enabled = true
+
+  tags = merge(var.tags, local.dd_tags)
+}
+
+data "aws_vpc_endpoint_service" "ebs" {
+  service      = "ebs"
+  service_type = "Interface"
+}
+
+resource "aws_vpc_endpoint" "ebs" {
+  service_name        = data.aws_vpc_endpoint_service.ebs.service_name
+  vpc_endpoint_type   = data.aws_vpc_endpoint_service.ebs.service_type
+  vpc_id              = aws_vpc.vpc.id
+  subnet_ids          = [aws_subnet.private.id]
+  security_group_ids  = [aws_security_group.endpoint_sg.id]
+  private_dns_enabled = true
+
+  tags = merge(var.tags, local.dd_tags)
 }
