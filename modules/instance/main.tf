@@ -5,8 +5,21 @@ locals {
   }
 }
 
+data "aws_ami" "al2023" {
+  most_recent = true
+  owners      = ["amazon"]
+  filter {
+    name   = "architecture"
+    values = ["arm64"]
+  }
+  filter {
+    name   = "name"
+    values = ["al2023-ami-2023*"]
+  }
+}
+
 resource "aws_instance" "instance" {
-  ami           = "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-arm64"
+  ami           = data.aws_ami.al2023.id
   instance_type = var.instance_type
 
   user_data                   = var.user_data
