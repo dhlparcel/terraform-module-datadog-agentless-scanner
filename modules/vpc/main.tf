@@ -92,6 +92,7 @@ resource "aws_vpc_endpoint" "s3" {
   service_name      = data.aws_vpc_endpoint_service.s3.service_name
   vpc_endpoint_type = data.aws_vpc_endpoint_service.s3.service_type
   vpc_id            = aws_vpc.vpc.id
+  route_table_ids   = [aws_route_table.public.id, aws_route_table.private.id]
 
   tags = merge(var.tags, local.dd_tags)
 }
@@ -99,14 +100,14 @@ resource "aws_vpc_endpoint" "s3" {
 resource "aws_security_group" "endpoint_sg" {
   name        = "${var.name}-vpc-endpoints"
   description = "VPC endpoint security group"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = aws_vpc.vpc.id
 
   ingress {
     description = "TLS from VPC"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = [module.vpc.vpc_cidr_block]
+    cidr_blocks = [aws_vpc.vpc.cidr_block]
   }
 
   tags = merge(var.tags, local.dd_tags)
@@ -127,7 +128,6 @@ resource "aws_vpc_endpoint" "lambda" {
   vpc_id              = aws_vpc.vpc.id
   subnet_ids          = [aws_subnet.private.id]
   security_group_ids  = [aws_security_group.endpoint_sg.id]
-  route_table_ids     = [aws_route_table.public.id, aws_route_table.private.id]
   private_dns_enabled = true
 
   tags = merge(var.tags, local.dd_tags)
@@ -144,7 +144,6 @@ resource "aws_vpc_endpoint" "ebs" {
   vpc_id              = aws_vpc.vpc.id
   subnet_ids          = [aws_subnet.private.id]
   security_group_ids  = [aws_security_group.endpoint_sg.id]
-  route_table_ids     = [aws_route_table.public.id, aws_route_table.private.id]
   private_dns_enabled = true
 
   tags = merge(var.tags, local.dd_tags)
