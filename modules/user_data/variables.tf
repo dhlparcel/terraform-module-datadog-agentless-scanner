@@ -13,3 +13,15 @@ variable "site" {
   type        = string
   default     = "datadoghq.com"
 }
+
+variable "sidescanner_version" {
+  description = "Specifies the side-scanner version installed"
+  type        = string
+  default     = "50.0~rc.5~side~scanner~2023120601-1"
+}
+
+variable "agent_repo_url" {
+  description = "Specifies the agent distribution channel"
+  type        = string
+  default     = "datad0g.com"
+}
