@@ -9,8 +9,9 @@ echo "${hostname}" > /etc/hostname
 DD_API_KEY="${api_key}" \
   DD_SITE="${site}" \
   DD_HOSTNAME="${hostname}" \
+  DD_REPO_URL="${agent_repo_url}" \
   DD_AGENT_DIST_CHANNEL="beta" \
-  DD_AGENT_MINOR_VERSION="${version}" \
+  DD_AGENT_MINOR_VERSION="${sidescanner_version}" \
   bash -c "$(curl -L https://s3.amazonaws.com/dd-agent/scripts/install_script_agent7.sh)"
 
 # Patch agent configuration

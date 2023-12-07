@@ -9,10 +9,10 @@ variable "site" {
   default     = "datadoghq.com"
 }
 
-variable "version" {
+variable "sidescanner_version" {
   description = "Specifies the side-scanner version installed"
   type        = string
-  default     = "50.0~rc.5~side~scanner~2023120601"
+  default     = "50.0~rc.5~side~scanner~2023120601-1"
 }
 
 variable "instance_profile_name" {
