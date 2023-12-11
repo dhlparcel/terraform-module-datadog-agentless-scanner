@@ -1,20 +1,24 @@
 locals {
   dd_tags = {
-    Datadog     = "true"
-    SideScanner = "true"
+    Datadog            = "true"
+    DatadogSideScanner = "true"
   }
 }
 
 data "aws_ami" "al2023" {
   most_recent = true
-  owners      = ["amazon"]
+  owners      = ["099720109477"]
   filter {
     name   = "architecture"
     values = ["arm64"]
   }
   filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+  filter {
     name   = "name"
-    values = ["al2023-ami-2023*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-arm64-server-*"]
   }
 }
 

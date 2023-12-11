@@ -1,7 +1,7 @@
 locals {
   dd_tags = {
-    Datadog     = "true"
-    SideScanner = "true"
+    Datadog            = "true"
+    DatadogSideScanner = "true"
   }
   public_cidr  = cidrsubnet(var.cidr, 3, 0)
   private_cidr = cidrsubnet(var.cidr, 3, 4)
