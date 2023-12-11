@@ -6,6 +6,7 @@ variable "hostname" {
 variable "api_key" {
   description = "Specifies the API keys required by the Datadog Agent to submit vulnerabilities to Datadog"
   type        = string
+  sensitive   = true
 }
 
 variable "site" {
