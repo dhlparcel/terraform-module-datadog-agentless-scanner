@@ -7,7 +7,7 @@ variable "name" {
 variable "instance_type" {
   description = "The type of instance"
   type        = string
-  default     = "t4g.medium"
+  default     = "t4g.large"
 }
 
 variable "user_data" {
