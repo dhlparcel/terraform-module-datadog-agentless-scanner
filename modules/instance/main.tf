@@ -37,6 +37,14 @@ resource "aws_instance" "instance" {
   iam_instance_profile = var.iam_instance_profile
   monitoring           = var.monitoring
 
+  metadata_options {
+    http_tokens = "required"
+  }
+
+  root_block_device {
+    encrypted = true
+  }
+
   tags        = merge({ "Name" = var.name }, var.tags, local.dd_tags)
   volume_tags = merge({ "Name" = var.name }, var.tags, local.dd_tags)
 }
