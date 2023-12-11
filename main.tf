@@ -5,10 +5,11 @@ module "vpc" {
 }
 
 module "user_data" {
-  source   = "./modules/user_data"
-  hostname = "side-scanning-${data.aws_region.current.name}"
-  api_key  = var.api_key
-  site     = var.site
+  source              = "./modules/user_data"
+  hostname            = "side-scanning-${data.aws_region.current.name}"
+  api_key             = var.api_key
+  site                = var.site
+  sidescanner_version = var.sidescanner_version
 }
 
 module "instance" {
