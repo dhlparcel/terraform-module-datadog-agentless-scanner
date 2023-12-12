@@ -38,7 +38,7 @@ resource "aws_nat_gateway" "nat_gateway" {
   allocation_id = aws_eip.nat.id
   subnet_id     = aws_subnet.public.id
 
-  tags = merge({ "Name" = "${var.name}" }, var.tags, local.dd_tags)
+  tags = merge({ "Name" = var.name }, var.tags, local.dd_tags)
 
   depends_on = [aws_internet_gateway.internet_gateway]
 }
