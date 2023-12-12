@@ -32,7 +32,7 @@ No modules.
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | The type of instance | `string` | `"t4g.large"` | no |
 | <a name="input_key_name"></a> [key\_name](#input\_key\_name) | Key name of the Key Pair to use for the instance; which can be managed using the `aws_key_pair` resource | `string` | `null` | no |
 | <a name="input_monitoring"></a> [monitoring](#input\_monitoring) | If true, the launched EC2 instance will have detailed monitoring enabled | `bool` | `null` | no |
-| <a name="input_name"></a> [name](#input\_name) | Name to be used on EC2 instance created | `string` | `"DatadogSideScanner"` | no |
+| <a name="input_name"></a> [name](#input\_name) | Name to be used on EC2 instance created | `string` | `"DatadogAgentlessScanner"` | no |
 | <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | The VPC Subnet ID to launch in | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | A map of additional tags to add to the instance/volume created | `map(string)` | `{}` | no |
 | <a name="input_user_data"></a> [user\_data](#input\_user\_data) | The user data to provide when launching the instance | `string` | `null` | no |
@@ -42,5 +42,5 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_instance"></a> [instance](#output\_instance) | The Datadog side-scanner instance created |
+| <a name="output_instance"></a> [instance](#output\_instance) | The Datadog agentless-scanner instance created |
 <!-- END_TF_DOCS -->

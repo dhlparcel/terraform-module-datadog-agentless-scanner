@@ -45,7 +45,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_cidr"></a> [cidr](#input\_cidr) | The CIDR block for the VPC | `string` | `"10.0.0.0/16"` | no |
-| <a name="input_name"></a> [name](#input\_name) | Name tag, e.g stack | `string` | `"DatadogSideScanner"` | no |
+| <a name="input_name"></a> [name](#input\_name) | Name tag, e.g stack | `string` | `"DatatogAgentlessScanner"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | A map of additional tags to add to the instance/volume created | `map(string)` | `{}` | no |
 
 ## Outputs
@@ -55,5 +55,5 @@ No modules.
 | <a name="output_nap_public_id"></a> [nap\_public\_id](#output\_nap\_public\_id) | The public IP associated with the VPC's NAT |
 | <a name="output_private_subnet"></a> [private\_subnet](#output\_private\_subnet) | The private subnet of the created VPC |
 | <a name="output_public_subnet"></a> [public\_subnet](#output\_public\_subnet) | The public subnet of the created VPC |
-| <a name="output_vpc"></a> [vpc](#output\_vpc) | The VPC created for the Datadog side-scanner |
+| <a name="output_vpc"></a> [vpc](#output\_vpc) | The VPC created for the Datadog agentless-scanner |
 <!-- END_TF_DOCS -->

@@ -32,8 +32,8 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_account_roles"></a> [account\_roles](#input\_account\_roles) | List of cross accounts roles ARN that the Datadog side-scanner can assume | `list(string)` | `[]` | no |
-| <a name="input_iam_role_name"></a> [iam\_role\_name](#input\_iam\_role\_name) | Name to use on IAM role created | `string` | `"DatadogSideScannerAgentRole"` | no |
+| <a name="input_account_roles"></a> [account\_roles](#input\_account\_roles) | List of cross accounts roles ARN that the Datadog agentless-scanner can assume | `list(string)` | `[]` | no |
+| <a name="input_iam_role_name"></a> [iam\_role\_name](#input\_iam\_role\_name) | Name to use on IAM role created | `string` | `"DatadogAgentlessScannerAgentRole"` | no |
 | <a name="input_iam_role_path"></a> [iam\_role\_path](#input\_iam\_role\_path) | IAM role path | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | A map of additional tags to add to the IAM role/profile created | `map(string)` | `{}` | no |
 
@@ -41,6 +41,6 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_instance_profile"></a> [instance\_profile](#output\_instance\_profile) | The Datadog side-scanner instance profile created |
-| <a name="output_role"></a> [role](#output\_role) | The Datadog side-scanner role created |
+| <a name="output_instance_profile"></a> [instance\_profile](#output\_instance\_profile) | The Datadog agentless-scanner instance profile created |
+| <a name="output_role"></a> [role](#output\_role) | The Datadog agentless-scanner role created |
 <!-- END_TF_DOCS -->
