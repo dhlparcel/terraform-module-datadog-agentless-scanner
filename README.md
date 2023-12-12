@@ -20,8 +20,35 @@ module "sidescanner" {
   api_key               = "YOUR_API_KEY"
   instance_profile_name = ""
 }
-``````
+```
 
 ## Example
 
-For a complete example, refer to the [examples](./examples/) directory in this repository.
+For complete examples, refer to the [examples](./examples/) directory in this repository.
+
+## Development
+
+Install pre-commit checks:
+
+```
+pre-commit install
+```
+
+Automatically generate documentation for the Terraform modules:
+
+```
+pre-commit run terraform-docs-go -a
+```
+
+Lint Terraform code:
+
+```
+pre-commit run terraform_fmt -a
+pre-commit run terraform_tflint -a
+```
+
+Run all checks:
+
+```
+pre-commit run -a
+```
