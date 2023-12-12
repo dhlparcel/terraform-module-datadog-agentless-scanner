@@ -5,11 +5,11 @@ module "vpc" {
 }
 
 module "user_data" {
-  source              = "./modules/user_data"
-  hostname            = "side-scanning-${data.aws_region.current.name}"
-  api_key             = var.api_key
-  site                = var.site
-  sidescanner_version = var.sidescanner_version
+  source          = "./modules/user_data"
+  hostname        = "agentless-scanning-${data.aws_region.current.name}"
+  api_key         = var.api_key
+  site            = var.site
+  scanner_version = var.scanner_version
 }
 
 module "instance" {

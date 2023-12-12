@@ -11,7 +11,7 @@ DD_API_KEY="${api_key}" \
   DD_HOSTNAME="${hostname}" \
   DD_REPO_URL="${agent_repo_url}" \
   DD_AGENT_DIST_CHANNEL="beta" \
-  DD_AGENT_MINOR_VERSION="${sidescanner_version}" \
+  DD_AGENT_MINOR_VERSION="${scanner_version}" \
   bash -c "$(curl -L https://s3.amazonaws.com/dd-agent/scripts/install_script_agent7.sh)"
 
 # Patch agent configuration
@@ -28,21 +28,21 @@ remote_configuration:
 EOF
 %{ endif }
 
-# Activate side-scanner logging
-mkdir -p /etc/datadog-agent/conf.d/side-scanner.d
-cat <<EOF > /etc/datadog-agent/conf.d/side-scanner.d/conf.yaml
+# Activate agentless-scanner logging
+mkdir -p /etc/datadog-agent/conf.d/agentless-scanner.d
+cat <<EOF > /etc/datadog-agent/conf.d/agentless-scanner.d/conf.yaml
 logs:
   - type: file
-    path: "/var/log/datadog/side-scanner.log"
-    service: "side-scanner"
+    path: "/var/log/datadog/agentless-scanner.log"
+    service: "agentless-scanner"
     source: "datadog-agent"
 EOF
 
-chown -R dd-agent: /etc/datadog-agent/conf.d/side-scanner.d
+chown -R dd-agent: /etc/datadog-agent/conf.d/agentless-scanner.d
 
 # Restart the agent
 service datadog-agent restart
 
-# Enable and start datadog-side-scaner
-systemctl enable datadog-side-scanner
-systemctl start datadog-side-scanner
+# Enable and start datadog-agentless-scaner
+systemctl enable datadog-agentless-scanner
+systemctl start datadog-agentless-scanner

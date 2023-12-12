@@ -1,7 +1,7 @@
 variable "name" {
   description = "Name to be used on EC2 instance created"
   type        = string
-  default     = "DatadogSideScanner"
+  default     = "DatadogAgentlessScanner"
 }
 
 variable "instance_type" {

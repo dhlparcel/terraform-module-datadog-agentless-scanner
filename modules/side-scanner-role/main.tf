@@ -1,7 +1,7 @@
 locals {
   dd_tags = {
-    Datadog            = "true"
-    DatadogSideScanner = "true"
+    Datadog                 = "true"
+    DatadogAgentlessScanner = "true"
   }
 }
 
@@ -22,7 +22,7 @@ data "aws_iam_policy_document" "assume_role_policy" {
 resource "aws_iam_role" "role" {
   name        = var.iam_role_name
   path        = var.iam_role_path
-  description = "Role used by the Datadog Side-Scanner instance"
+  description = "Role used by the Datadog Agentless-Scanner instance"
 
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 
@@ -52,7 +52,7 @@ data "aws_iam_policy_document" "assume_policy_document" {
 }
 
 resource "aws_iam_policy" "assume_policy" {
-  name   = "DatadogSideScannerAgentPolicy"
+  name   = "DatadogAgentlessScannerAgentPolicy"
   policy = data.aws_iam_policy_document.assume_policy_document.json
 }
 

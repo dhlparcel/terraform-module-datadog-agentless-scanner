@@ -1,5 +1,5 @@
 variable "hostname" {
-  description = "Specifies the hostname the side-scanning agent will report as"
+  description = "Specifies the hostname the agentless-scanning agent will report as"
   type        = string
 }
 
@@ -16,10 +16,10 @@ variable "site" {
   nullable    = false
 }
 
-variable "sidescanner_version" {
-  description = "Specifies the side-scanner version installed"
+variable "scanner_version" {
+  description = "Specifies the agentless scanner version installed"
   type        = string
-  default     = "50.0~rc.5~side~scanner~2023120801-1"
+  default     = "50.0~rc.5~agentless~scanner~2023120801-1"
   nullable    = false
 }
 
