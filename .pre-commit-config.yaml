@@ -9,8 +9,8 @@ repos:
         name: terraform docs for the 'scanning-delegate-role' module
         args: ["markdown", "table", "--output-file", "README.md", "./modules/scanning-delegate-role"]
       - id: terraform-docs-go
-        name: terraform docs for the 'side-scanner-role' module
-        args: ["markdown", "table", "--output-file", "README.md", "./modules/side-scanner-role"]
+        name: terraform docs for the 'agentless-scanner-role' module
+        args: ["markdown", "table", "--output-file", "README.md", "./modules/agentless-scanner-role"]
       - id: terraform-docs-go
         name: terraform docs for the 'user_data' module
         args: ["markdown", "table", "--output-file", "README.md", "./modules/user_data"]

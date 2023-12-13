@@ -10,8 +10,8 @@ variable "site" {
   default     = null
 }
 
-variable "sidescanner_version" {
-  description = "Specifies the side-scanner version installed"
+variable "scanner_version" {
+  description = "Specifies the agentless scanner version installed"
   type        = string
   default     = null
 }

@@ -1,6 +1,6 @@
-# Terraform Datadog Side Scanner Module
+# Terraform Datadog Agentless Scanner Module
 
-This Terraform module provides a simple and reusable configuration for installing a Datadog side-scanner.
+This Terraform module provides a simple and reusable configuration for installing a Datadog agentless-scanner.
 
 ## Prerequisites
 
@@ -14,8 +14,8 @@ Before using this module, make sure you have the following:
 To use this module in your Terraform configuration, add the following code:
 
 ```hcl
-module "sidescanner" {
-  source = "github.com/DataDog/terraform-datadog-sidescanner"
+module "agentless_scanner" {
+  source = "github.com/DataDog/terraform-datadog-agentless-scanner"
 
   api_key               = "YOUR_API_KEY"
   instance_profile_name = ""

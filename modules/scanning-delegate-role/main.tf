@@ -1,7 +1,7 @@
 locals {
   dd_tags = {
-    Datadog            = "true"
-    DatadogSideScanner = "true"
+    Datadog                 = "true"
+    DatadogAgentlessScanner = "true"
   }
 }
 
@@ -10,7 +10,7 @@ data "aws_partition" "current" {}
 // reference: https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonec2.html
 data "aws_iam_policy_document" "scanning_policy_document" {
   statement {
-    sid    = "DatadogSideScannerResourceTagging"
+    sid    = "DatadogAgentlessScannerResourceTagging"
     effect = "Allow"
     actions = [
       "ec2:CreateTags"
@@ -28,7 +28,7 @@ data "aws_iam_policy_document" "scanning_policy_document" {
   }
 
   statement {
-    sid    = "DatadogSideScannerVolumeSnapshotCreation"
+    sid    = "DatadogAgentlessScannerVolumeSnapshotCreation"
     effect = "Allow"
     actions = [
       "ec2:CreateSnapshot",
@@ -37,16 +37,16 @@ data "aws_iam_policy_document" "scanning_policy_document" {
       "arn:${data.aws_partition.current.partition}:ec2:*:*:volume/*",
     ]
     // Allow creating snapshots from any volume that does not have a
-    // DatadogSideScanner:false tag.
+    // DatadogAgentlessScanner:false tag.
     condition {
       test     = "StringNotEquals"
-      variable = "aws:ResourceTag/DatadogSideScanner"
+      variable = "aws:ResourceTag/DatadogAgentlessScanner"
       values   = ["false"]
     }
   }
 
   statement {
-    sid    = "DatadogSideScannerSnapshotCreation"
+    sid    = "DatadogAgentlessScannerSnapshotCreation"
     effect = "Allow"
     actions = [
       "ec2:CreateSnapshot"
@@ -54,22 +54,22 @@ data "aws_iam_policy_document" "scanning_policy_document" {
     resources = [
       "arn:${data.aws_partition.current.partition}:ec2:*:*:snapshot/*",
     ]
-    // Enforcing created snapshot has DatadogSideScanner tag
+    // Enforcing created snapshot has DatadogAgentlessScanner tag
     condition {
       test     = "StringEquals"
-      variable = "aws:RequestTag/DatadogSideScanner"
+      variable = "aws:RequestTag/DatadogAgentlessScanner"
       values   = ["true"]
     }
-    // Enforcing created snapshot has only tags with DatadogSideScanner* prefix
+    // Enforcing created snapshot has only tags with DatadogAgentlessScanner* prefix
     condition {
       test     = "ForAllValues:StringLike"
       variable = "aws:TagKeys"
-      values   = ["DatadogSideScanner*"]
+      values   = ["DatadogAgentlessScanner*"]
     }
   }
 
   statement {
-    sid    = "DatadogSideScannerSnapshotAccessAndCleanup"
+    sid    = "DatadogAgentlessScannerSnapshotAccessAndCleanup"
     effect = "Allow"
     actions = [
       // Allow reading created snapshots' blocks from EBS direct APIs
@@ -88,16 +88,16 @@ data "aws_iam_policy_document" "scanning_policy_document" {
     ]
 
     // Enforce that any of these actions can be performed on resources
-    // (volumes and snapshots) that have the DatadogSideScanner tag.
+    // (volumes and snapshots) that have the DatadogAgentlessScanner tag.
     condition {
       test     = "StringEquals"
-      variable = "aws:ResourceTag/DatadogSideScanner"
+      variable = "aws:ResourceTag/DatadogAgentlessScanner"
       values   = ["true"]
     }
   }
 
   statement {
-    sid    = "DatadogSideScannerDescribeSnapshots"
+    sid    = "DatadogAgentlessScannerDescribeSnapshots"
     effect = "Allow"
     actions = [
       // Required to be able to wait for snapshots completion. It cannot be
@@ -112,7 +112,7 @@ data "aws_iam_policy_document" "scanning_policy_document" {
   # Uncomment this block to allow volume-attach mode of the scanner:
   #
   #   statement {
-  #     sid   = "DatadogSideScannerSnapshotSharing"
+  #     sid   = "DatadogAgentlessScannerSnapshotSharing"
   #     effet = "allow"
   #     actions = [
   #       // Allow sharing created snapshots for cross-account scanning
@@ -123,13 +123,13 @@ data "aws_iam_policy_document" "scanning_policy_document" {
   #     ]
   #     condition {
   #       test     = "StringEquals"
-  #       variable = "aws:ResourceTag/DatadogSideScanner"
+  #       variable = "aws:ResourceTag/DatadogAgentlessScanner"
   #       values   = ["true"]
   #     }
   #   }
   #
   #   statement {
-  #     sid    = "DatadogSideScannerVolumeCreation"
+  #     sid    = "DatadogAgentlessScannerVolumeCreation"
   #     effect = "Allow"
   #     actions = [
   #       "ec2:CreateVolume",
@@ -137,22 +137,22 @@ data "aws_iam_policy_document" "scanning_policy_document" {
   #     resources = [
   #       "arn:${data.aws_partition.current.partition}:ec2:*:*:volume/*",
   #     ]
-  #     // Enforcing created volume has DatadogSideScanner tag
+  #     // Enforcing created volume has DatadogAgentlessScanner tag
   #     condition {
   #       test     = "StringEquals"
-  #       variable = "aws:RequestTag/DatadogSideScanner"
+  #       variable = "aws:RequestTag/DatadogAgentlessScanner"
   #       values   = ["true"]
   #     }
-  #     // Enforcing created volume has only tags with DatadogSideScanner* prefix
+  #     // Enforcing created volume has only tags with DatadogAgentlessScanner* prefix
   #     condition {
   #       test     = "ForAllValues:StringLike"
   #       variable = "aws:TagKeys"
-  #       values   = ["DatadogSideScanner*"]
+  #       values   = ["DatadogAgentlessScanner*"]
   #     }
   #   }
   #
   #   statement {
-  #     sid    = "DatadogSideScannerVolumeAttachToInstance"
+  #     sid    = "DatadogAgentlessScannerVolumeAttachToInstance"
   #     effect = "Allow"
   #     actions = [
   #       "ec2:AttachVolume",
@@ -162,16 +162,16 @@ data "aws_iam_policy_document" "scanning_policy_document" {
   #       "arn:${data.aws_partition.current.partition}:ec2:*:*:instance/*",
   #     ]
   #     // Enforce that any of these actions can be performed on resources
-  #     // (volumes and snapshots) that have the DatadogSideScanner tag.
+  #     // (volumes and snapshots) that have the DatadogAgentlessScanner tag.
   #     condition {
   #       test     = "StringEquals"
-  #       variable = "aws:ResourceTag/DatadogSideScanner"
+  #       variable = "aws:ResourceTag/DatadogAgentlessScanner"
   #       values   = ["true"]
   #     }
   #   }
   #
   #   statement {
-  #     sid    = "DatadogSideScannerVolumeAttachAndDelete"
+  #     sid    = "DatadogAgentlessScannerVolumeAttachAndDelete"
   #     effect = "Allow"
   #     actions = [
   #       "ec2:AttachVolume",
@@ -182,10 +182,10 @@ data "aws_iam_policy_document" "scanning_policy_document" {
   #       "arn:${data.aws_partition.current.partition}:ec2:*:*:volume/*",
   #     ]
   #     // Enforce that any of these actions can be performed on resources
-  #     // (volumes and snapshots) that have the DatadogSideScanner tag.
+  #     // (volumes and snapshots) that have the DatadogAgentlessScanner tag.
   #     condition {
   #       test     = "StringEquals"
-  #       variable = "aws:ResourceTag/DatadogSideScanner"
+  #       variable = "aws:ResourceTag/DatadogAgentlessScanner"
   #       values   = ["true"]
   #     }
   #   }
@@ -223,7 +223,7 @@ data "aws_iam_policy_document" "assume_role_policy" {
 resource "aws_iam_role" "role" {
   name        = var.iam_role_name
   path        = var.iam_role_path
-  description = "Role assumed by the Datadog Side-Scanner agent to perform scans"
+  description = "Role assumed by the Datadog Agentless-Scanner agent to perform scans"
 
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 

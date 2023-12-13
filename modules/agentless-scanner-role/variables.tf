@@ -1,7 +1,7 @@
 variable "iam_role_name" {
   description = "Name to use on IAM role created"
   type        = string
-  default     = "DatadogSideScannerAgentRole"
+  default     = "DatadogAgentlessScannerAgentRole"
 }
 
 variable "iam_role_path" {
@@ -11,7 +11,7 @@ variable "iam_role_path" {
 }
 
 variable "account_roles" {
-  description = "List of cross accounts roles ARN that the Datadog side-scanner can assume"
+  description = "List of cross accounts roles ARN that the Datadog agentless-scanner can assume"
   type        = list(string)
   default     = []
 }

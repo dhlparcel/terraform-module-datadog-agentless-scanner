@@ -13,29 +13,29 @@ provider "aws" {
   region = "us-east-1"
 }
 
-module "side_scanner_role" {
-  source = "github.com/DataDog/terraform-datadog-sidescanner//modules/side-scanner-role"
+module "agentless_scanner_role" {
+  source = "github.com/DataDog/terraform-datadog-agentless-scanner//modules/agentless-scanner-role"
 
   account_roles = [module.delegate_role.role.arn]
 }
 
 module "delegate_role" {
-  source = "github.com/DataDog/terraform-datadog-sidescanner//modules/scanning-delegate-role"
+  source = "github.com/DataDog/terraform-datadog-agentless-scanner//modules/scanning-delegate-role"
 
-  scanner_role_arn = module.side_scanner_role.role.arn
+  scanner_role_arn = module.agentless_scanner_role.role.arn
 }
 
 module "user_data" {
-  source = "github.com/DataDog/terraform-datadog-sidescanner//modules/user_data"
+  source = "github.com/DataDog/terraform-datadog-agentless-scanner//modules/user_data"
 
-  hostname = "side-scanning-us-east-1"
+  hostname = "agentless-scanning-us-east-1"
   api_key  = var.api_key
 }
 
 module "instance" {
-  source = "github.com/DataDog/terraform-datadog-sidescanner//modules/instance"
+  source = "github.com/DataDog/terraform-datadog-agentless-scanner//modules/instance"
 
   user_data            = module.user_data.install_sh
-  iam_instance_profile = module.side_scanner_role.profile.name
+  iam_instance_profile = module.agentless_scanner_role.profile.name
   subnet_id            = var.subnet_id
 }

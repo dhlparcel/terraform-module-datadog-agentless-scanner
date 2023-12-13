@@ -1,7 +1,7 @@
 locals {
   dd_tags = {
-    Datadog            = "true"
-    DatadogSideScanner = "true"
+    Datadog                 = "true"
+    DatadogAgentlessScanner = "true"
   }
 }
 
