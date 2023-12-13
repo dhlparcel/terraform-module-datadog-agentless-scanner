@@ -19,7 +19,7 @@ variable "site" {
 variable "scanner_version" {
   description = "Specifies the agentless scanner version installed"
   type        = string
-  default     = "50.0~rc.5~agentless~scanner~2023120801-1"
+  default     = "50.0~rc.5~agentless~scanner~2023121301"
   nullable    = false
 }
 
