@@ -100,9 +100,22 @@ data "aws_iam_policy_document" "scanning_policy_document" {
     sid    = "DatadogAgentlessScannerDescribeSnapshots"
     effect = "Allow"
     actions = [
-      // Required to be able to wait for snapshots completion. It cannot be
-      // restricted.
+      // Required to be able to wait for snapshots completion and cleanup. It
+      // cannot be restricted.
       "ec2:DescribeSnapshots",
+    ]
+    resources = [
+      "*",
+    ]
+  }
+
+  statement {
+    sid    = "DatadogAgentlessScannerDescribeVolumes"
+    effect = "Allow"
+    actions = [
+      // Required to be able to wait for volumes completion and cleanup. It
+      // cannot be restricted.
+      "ec2:DescribeVolumes",
     ]
     resources = [
       "*",
