@@ -52,8 +52,8 @@ variable "monitoring" {
 
 variable "asg_size" {
   description = "Size of the autoscaling group the instance is in (i.e. number of instances to run)"
-  type = number
-  default = 1
+  type        = number
+  default     = 1
 }
 
 variable "tags" {
