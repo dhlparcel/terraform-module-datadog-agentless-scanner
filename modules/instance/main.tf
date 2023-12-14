@@ -77,7 +77,7 @@ resource "aws_autoscaling_group" "asg" {
 
   launch_template {
     id      = aws_launch_template.launch_template.id
-    version = "$Latest"
+    version = aws_launch_template.launch_template.latest_version
   }
 
   # aws_autoscaling_group doesn't have a "tags" attribute, but instead a "tag" block
