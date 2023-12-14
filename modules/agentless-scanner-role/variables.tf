@@ -21,3 +21,9 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "enable_ssm" {
+  description = "Whether to enable AWS SSM to facilitate executing troubleshooting commands on the instance"
+  type        = bool
+  default     = false
+}

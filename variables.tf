@@ -17,6 +17,18 @@ variable "scanner_version" {
 }
 
 variable "instance_profile_name" {
-  description = "value"
+  description = "Name of the instance profile to attach to the instance"
   type        = string
+}
+
+variable "enable_ssm" {
+  description = "Whether to enable AWS SSM to facilitate executing troubleshooting commands on the instance"
+  type        = bool
+  default     = false
+}
+
+variable "enable_ssm_vpc_endpoint" {
+  description = "Whether to enable AWS SSM VPC endpoint (only applicable if enable_ssm is true)"
+  type        = bool
+  default     = true
 }

@@ -15,3 +15,9 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "enable_ssm_vpc_endpoint" {
+  description = "Whether to enable AWS SSM VPC endpoint"
+  type        = bool
+  default     = false
+}
