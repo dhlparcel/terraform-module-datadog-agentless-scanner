@@ -26,7 +26,7 @@ resource "aws_launch_template" "launch_template" {
   name_prefix            = var.name
   image_id               = data.aws_ami.al2023.id
   instance_type          = var.instance_type
-  user_data              = var.user_data
+  user_data              = base64encode(var.user_data)
   vpc_security_group_ids = var.vpc_security_group_ids
   key_name               = var.key_name
 
