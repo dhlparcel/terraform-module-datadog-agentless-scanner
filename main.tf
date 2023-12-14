@@ -2,6 +2,8 @@ data "aws_region" "current" {}
 
 module "vpc" {
   source = "./modules/vpc"
+
+  enable_ssm_vpc_endpoint = var.enable_ssm && var.enable_ssm_vpc_endpoint
 }
 
 module "user_data" {

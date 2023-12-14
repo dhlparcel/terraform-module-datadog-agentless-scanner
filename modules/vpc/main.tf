@@ -3,8 +3,9 @@ locals {
     Datadog                 = "true"
     DatadogAgentlessScanner = "true"
   }
-  public_cidr  = cidrsubnet(var.cidr, 3, 0)
-  private_cidr = cidrsubnet(var.cidr, 3, 4)
+  public_cidr               = cidrsubnet(var.cidr, 3, 0)
+  private_cidr              = cidrsubnet(var.cidr, 3, 4)
+  ssm_vpc_endpoint_services = ["ec2messages", "ssmmessages", "ssm"]
 }
 
 resource "aws_vpc" "vpc" {
@@ -146,6 +147,26 @@ resource "aws_vpc_endpoint" "ebs" {
   subnet_ids          = [aws_subnet.private.id]
   security_group_ids  = [aws_security_group.endpoint_sg.id]
   private_dns_enabled = true
+
+  tags = merge(var.tags, local.dd_tags)
+}
+
+data "aws_vpc_endpoint_service" "ssm" {
+  for_each = toset(var.enable_ssm_vpc_endpoint ? local.ssm_vpc_endpoint_services : [])
+
+  service      = each.value
+  service_type = "Interface"
+}
+
+resource "aws_vpc_endpoint" "ssm" {
+  for_each = toset(var.enable_ssm_vpc_endpoint ? local.ssm_vpc_endpoint_services : [])
+
+  service_name        = data.aws_vpc_endpoint_service.ssm[each.value].service_name
+  vpc_endpoint_type   = data.aws_vpc_endpoint_service.ssm[each.value].service_type
+  vpc_id              = aws_vpc.vpc.id
+  subnet_ids          = [aws_subnet.private.id]
+  private_dns_enabled = true
+  security_group_ids  = [aws_security_group.endpoint_sg.id]
 
   tags = merge(var.tags, local.dd_tags)
 }

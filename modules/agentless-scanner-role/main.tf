@@ -60,3 +60,9 @@ resource "aws_iam_role_policy_attachment" "attachment" {
   policy_arn = aws_iam_policy.assume_policy.arn
   role       = aws_iam_role.role.name
 }
+
+resource "aws_iam_role_policy_attachment" "attachment" {
+  count      = var.enable_ssm ? 1 : 0
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+  role       = aws_iam_role.role.name
+}
