@@ -80,6 +80,14 @@ resource "aws_autoscaling_group" "asg" {
     version = aws_launch_template.launch_template.latest_version
   }
 
+  instance_refresh {
+    strategy = "Rolling"
+    preferences {
+      # Whenever the launch template changes, allow replacing instances all at once
+      min_healthy_percentage = 0
+    }
+  }
+
   # aws_autoscaling_group doesn't have a "tags" attribute, but instead a "tag" block
   dynamic "tag" {
     for_each = merge({ "Name" = "DatadogAgentlessScannerASG" }, var.tags, local.dd_tags)
