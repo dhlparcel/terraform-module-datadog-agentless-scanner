@@ -31,7 +31,7 @@ resource "aws_launch_template" "launch_template" {
   key_name               = var.key_name
 
   block_device_mappings {
-    device_name = "/dev/xvda"
+    device_name = data.aws_ami.al2023.root_device_name
     ebs {
       encrypted = true
     }
