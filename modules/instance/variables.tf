@@ -1,5 +1,5 @@
 variable "name" {
-  description = "Name to be used on EC2 instance created"
+  description = "Name prefix to be used on EC2 instance created"
   type        = string
   default     = "DatadogAgentlessScanner"
 }
@@ -48,6 +48,12 @@ variable "monitoring" {
   description = "If true, the launched EC2 instance will have detailed monitoring enabled"
   type        = bool
   default     = null
+}
+
+variable "asg_size" {
+  description = "Size of the autoscaling group the instance is in (i.e. number of instances to run)"
+  type = number
+  default = 1
 }
 
 variable "tags" {
