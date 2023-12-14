@@ -68,7 +68,6 @@ resource "aws_autoscaling_group" "asg" {
   max_size         = var.asg_size
   desired_capacity = var.asg_size
 
-  availability_zones  = [var.availability_zone]
   vpc_zone_identifier = [var.subnet_id]
 
   launch_template {

@@ -21,12 +21,6 @@ variable "subnet_id" {
   type        = string
 }
 
-variable "availability_zone" {
-  description = "AZ to start the instance in"
-  type        = string
-  default     = null
-}
-
 variable "vpc_security_group_ids" {
   description = "A list of security group IDs to associate with"
   type        = list(string)
