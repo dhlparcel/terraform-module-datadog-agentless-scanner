@@ -51,7 +51,7 @@ resource "aws_launch_template" "launch_template" {
 
   # Tag created instances, volumes and network interface at launch
   dynamic "tag_specifications" {
-    for_each = set("instance", "volume", "network-interface")
+    for_each = toset(["instance", "volume", "network-interface"])
     content {
       resource_type = each.value
       tags          = merge(var.tags, local.dd_tags)
