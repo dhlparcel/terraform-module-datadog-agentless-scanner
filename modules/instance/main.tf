@@ -53,7 +53,7 @@ resource "aws_launch_template" "launch_template" {
   dynamic "tag_specifications" {
     for_each = toset(["instance", "volume", "network-interface"])
     content {
-      resource_type = each.value
+      resource_type = tag_specifications.value
       tags          = merge(var.tags, local.dd_tags)
     }
   }
