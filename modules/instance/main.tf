@@ -23,7 +23,7 @@ data "aws_ami" "al2023" {
 }
 
 resource "aws_launch_template" "launch_template" {
-  name_prefix            = var.name
+  name_prefix            = "DatadogAgentlessScannerLaunchTemplate"
   image_id               = data.aws_ami.al2023.id
   instance_type          = var.instance_type
   user_data              = base64encode(var.user_data)
@@ -54,11 +54,16 @@ resource "aws_launch_template" "launch_template" {
     for_each = toset(["instance", "volume", "network-interface"])
     content {
       resource_type = tag_specifications.value
-      tags          = merge(var.tags, local.dd_tags)
+      tags = merge(
+        var.tags,
+        local.dd_tags,
+        # add a Name tag for instances only
+        tag_specifications.value == "instance" ? { "Name" = var.name } : {}
+      )
     }
   }
 
-  tags = merge({ "Name" = "DatadogAgentlessScannerLaunchTemplate" }, var.tags, local.dd_tags)
+  tags = merge(var.tags, local.dd_tags)
 
 }
 
