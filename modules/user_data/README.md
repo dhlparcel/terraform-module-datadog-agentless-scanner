@@ -31,5 +31,5 @@ No resources.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_install_sh"></a> [install\_sh](#output\_install\_sh) | The installation script for the Datadog agentless-scanner |
+| <a name="output_install_sh"></a> [install\_sh](#output\_install\_sh) | The installation script for the Datadog agentless scanner |
 <!-- END_TF_DOCS -->

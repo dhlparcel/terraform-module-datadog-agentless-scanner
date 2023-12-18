@@ -1,6 +1,6 @@
 # Terraform Datadog Agentless Scanner Module
 
-This Terraform module provides a simple and reusable configuration for installing a Datadog agentless-scanner.
+This Terraform module provides a simple and reusable configuration for installing a Datadog agentless scanner.
 
 ## Prerequisites
 
