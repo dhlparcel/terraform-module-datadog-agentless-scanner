@@ -13,21 +13,21 @@ provider "aws" {
   region = "us-east-1"
 }
 
-module "agentless_scanner_role" {
-  source = "github.com/DataDog/terraform-datadog-agentless-scanner//modules/agentless-scanner-role"
+module "scanner_role" {
+  source = "git::https://github.com/DataDog/terraform-datadog-agentless-scanner//modules/agentless-scanner-role?ref=0.1.0"
 
   account_roles = [module.delegate_role.role.arn]
 }
 
 module "delegate_role" {
-  source = "github.com/DataDog/terraform-datadog-agentless-scanner//modules/scanning-delegate-role"
+  source = "git::https://github.com/DataDog/terraform-datadog-agentless-scanner//modules/scanning-delegate-role?ref=0.1.0"
 
-  scanner_role_arn = module.agentless_scanner_role.role.arn
+  scanner_role_arn = module.scanner_role.role.arn
 }
 
 module "agentless_scanner" {
-  source = "github.com/DataDog/terraform-datadog-agentless-scanner"
+  source = "git::https://github.com/DataDog/terraform-datadog-agentless-scanner?ref=0.1.0"
 
   api_key               = var.api_key
-  instance_profile_name = module.agentless_scanner_role.instance_profile.name
+  instance_profile_name = module.scanner_role.instance_profile.name
 }
