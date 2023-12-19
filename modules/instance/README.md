@@ -42,5 +42,5 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_instance"></a> [instance](#output\_instance) | The Datadog agentless-scanner instance created |
+| <a name="output_instance"></a> [instance](#output\_instance) | The Datadog agentless scanner instance created |
 <!-- END_TF_DOCS -->

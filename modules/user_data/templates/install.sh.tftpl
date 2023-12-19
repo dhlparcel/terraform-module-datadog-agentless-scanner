@@ -35,7 +35,7 @@ remote_configuration:
 EOF
 %{ endif }
 
-# Activate agentless-scanner logging
+# Activate agentless scanner logging
 mkdir -p /etc/datadog-agent/conf.d/agentless-scanner.d
 cat <<EOF > /etc/datadog-agent/conf.d/agentless-scanner.d/conf.yaml
 logs:

@@ -1,5 +1,5 @@
 output "vpc" {
-  description = "The VPC created for the Datadog agentless-scanner"
+  description = "The VPC created for the Datadog agentless scanner"
   value       = aws_vpc.vpc
 }
 
