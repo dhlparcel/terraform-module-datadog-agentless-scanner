@@ -16,6 +16,18 @@ variable "account_roles" {
   default     = []
 }
 
+variable "api_key_secret_arn" {
+  description = "ARN of the secret holding the Datadog API key"
+  type        = string
+  default     = null
+}
+
+variable "kms_key_arn" {
+  description = "ARN of the KMS key encrypting the secret"
+  type        = string
+  default     = null
+}
+
 variable "tags" {
   description = "A map of additional tags to add to the IAM role/profile created"
   type        = map(string)
