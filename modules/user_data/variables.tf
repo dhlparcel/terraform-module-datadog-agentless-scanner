@@ -14,6 +14,11 @@ variable "api_key_secret_arn" {
   description = "ARN of the secret holding the Datadog API key. Takes precedence over api_key variable"
   type        = string
   default     = null
+
+  validation {
+    condition     = length(var.api_key) == 32 && can(regex("^[[:alnum:]]+$", var.api_key))
+    error_message = "A valid API key must be present in order to plan/apply this module."
+  }
 }
 
 variable "site" {
