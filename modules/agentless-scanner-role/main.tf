@@ -51,7 +51,7 @@ data "aws_iam_policy_document" "scanner_policy_document" {
   }
 
   dynamic "statement" {
-    for_each = var.api_key_secret_arn ? [1] : []
+    for_each = var.api_key_secret_arn != null ? [1] : []
 
     content {
       sid       = "ReadSecret"
@@ -61,7 +61,7 @@ data "aws_iam_policy_document" "scanner_policy_document" {
   }
 
   dynamic "statement" {
-    for_each = var.kms_key_arn ? [1] : []
+    for_each = var.kms_key_arn != null ? [1] : []
 
     content {
       sid       = "DecryptSecret"
