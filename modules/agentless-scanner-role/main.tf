@@ -51,12 +51,12 @@ data "aws_iam_policy_document" "scanner_policy_document" {
   }
 
   dynamic "statement" {
-    for_each = var.secret_arn ? [1] : []
+    for_each = var.api_key_secret_arn ? [1] : []
 
     content {
       sid       = "ReadSecret"
       actions   = ["secretsmanager:GetSecretValue"]
-      resources = [var.secret_arn]
+      resources = [var.api_key_secret_arn]
     }
   }
 

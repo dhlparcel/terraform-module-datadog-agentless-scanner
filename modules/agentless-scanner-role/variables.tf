@@ -16,7 +16,7 @@ variable "account_roles" {
   default     = []
 }
 
-variable "secret_arn" {
+variable "api_key_secret_arn" {
   description = "ARN of the secret holding the Datadog API key"
   type        = string
   default     = null

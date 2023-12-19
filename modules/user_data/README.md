@@ -23,9 +23,9 @@ No resources.
 |------|-------------|------|---------|:--------:|
 | <a name="input_agent_repo_url"></a> [agent\_repo\_url](#input\_agent\_repo\_url) | Specifies the agent distribution channel | `string` | `"datad0g.com"` | no |
 | <a name="input_api_key"></a> [api\_key](#input\_api\_key) | Specifies the API key required by the Datadog Agent to submit vulnerabilities to Datadog | `string` | `null` | no |
+| <a name="input_api_key_secret_arn"></a> [api\_key\_secret\_arn](#input\_api\_key\_secret\_arn) | ARN of the secret holding the Datadog API key. Takes precedence over api\_key variable | `string` | `null` | no |
 | <a name="input_hostname"></a> [hostname](#input\_hostname) | Specifies the hostname the agentless-scanning agent will report as | `string` | n/a | yes |
 | <a name="input_scanner_version"></a> [scanner\_version](#input\_scanner\_version) | Specifies the agentless scanner version installed | `string` | `"50.0~rc.7~agentless~scanner~2023121801"` | no |
-| <a name="input_secret_arn"></a> [secret\_arn](#input\_secret\_arn) | ARN of the secret holding the Datadog API key. Takes precedence over api\_key variable | `string` | `null` | no |
 | <a name="input_site"></a> [site](#input\_site) | By default the Agent sends its data to Datadog US site. If your organization is on another site, you must update it. See https://docs.datadoghq.com/getting_started/site/ | `string` | `"datadoghq.com"` | no |
 
 ## Outputs
