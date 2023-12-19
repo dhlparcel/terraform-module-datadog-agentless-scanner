@@ -4,9 +4,16 @@ variable "hostname" {
 }
 
 variable "api_key" {
-  description = "Specifies the API keys required by the Datadog Agent to submit vulnerabilities to Datadog"
+  description = "Specifies the API key required by the Datadog Agent to submit vulnerabilities to Datadog"
   type        = string
   sensitive   = true
+  default     = null
+}
+
+variable "secret_arn" {
+  description = "ARN of the secret holding the Datadog API key. Takes precedence over api_key variable"
+  type        = string
+  default     = null
 }
 
 variable "site" {

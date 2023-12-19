@@ -5,9 +5,16 @@ set -e
 
 echo "${hostname}" > /etc/hostname
 
+
+%{ if secret_arn }
+apt install awscli
+DD_API_KEY=$(aws secretsmanager get-secret-value ${secret_arn} --query SecretString)
+%{ else }
+DD_API_KEY=${api_key}
+%{ endif }
+
 # Install the agent
-DD_API_KEY="${api_key}" \
-  DD_SITE="${site}" \
+DD_SITE="${site}" \
   DD_HOSTNAME="${hostname}" \
   DD_REPO_URL="${agent_repo_url}" \
   DD_AGENT_DIST_CHANNEL="beta" \

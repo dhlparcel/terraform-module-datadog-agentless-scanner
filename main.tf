@@ -10,6 +10,7 @@ module "user_data" {
   source          = "./modules/user_data"
   hostname        = "agentless-scanning-${data.aws_region.current.name}"
   api_key         = var.api_key
+  secret_arn      = var.secret_arn
   site            = var.site
   scanner_version = var.scanner_version
 }
