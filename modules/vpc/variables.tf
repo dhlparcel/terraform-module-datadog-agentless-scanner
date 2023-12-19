@@ -10,14 +10,14 @@ variable "cidr" {
   default     = "10.0.0.0/16"
 }
 
-variable "tags" {
-  description = "A map of additional tags to add to the instance/volume created"
-  type        = map(string)
-  default     = {}
-}
-
 variable "enable_ssm_vpc_endpoint" {
   description = "Whether to enable AWS SSM VPC endpoint"
   type        = bool
   default     = false
+}
+
+variable "tags" {
+  description = "A map of additional tags to add to the instance/volume created"
+  type        = map(string)
+  default     = {}
 }

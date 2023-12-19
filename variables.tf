@@ -39,3 +39,9 @@ variable "enable_ssm_vpc_endpoint" {
   type        = bool
   default     = true
 }
+
+variable "tags" {
+  description = "A map of additional tags to add to the IAM role/profile created"
+  type        = map(string)
+  default     = {}
+}
