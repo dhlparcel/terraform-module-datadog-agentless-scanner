@@ -28,14 +28,14 @@ variable "kms_key_arn" {
   default     = null
 }
 
-variable "tags" {
-  description = "A map of additional tags to add to the IAM role/profile created"
-  type        = map(string)
-  default     = {}
-}
-
 variable "enable_ssm" {
   description = "Whether to enable AWS SSM to facilitate executing troubleshooting commands on the instance"
   type        = bool
   default     = false
+}
+
+variable "tags" {
+  description = "A map of additional tags to add to the IAM role/profile created"
+  type        = map(string)
+  default     = {}
 }
