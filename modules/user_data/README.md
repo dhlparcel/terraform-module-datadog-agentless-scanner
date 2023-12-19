@@ -22,7 +22,7 @@ No resources.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_agent_repo_url"></a> [agent\_repo\_url](#input\_agent\_repo\_url) | Specifies the agent distribution channel | `string` | `"datad0g.com"` | no |
-| <a name="input_api_key"></a> [api\_key](#input\_api\_key) | Specifies the API key required by the Datadog Agent to submit vulnerabilities to Datadog | `string` | n/a | yes |
+| <a name="input_api_key"></a> [api\_key](#input\_api\_key) | Specifies the API key required by the Datadog Agent to submit vulnerabilities to Datadog | `string` | `null` | no |
 | <a name="input_hostname"></a> [hostname](#input\_hostname) | Specifies the hostname the agentless-scanning agent will report as | `string` | n/a | yes |
 | <a name="input_scanner_version"></a> [scanner\_version](#input\_scanner\_version) | Specifies the agentless scanner version installed | `string` | `"50.0~rc.7~agentless~scanner~2023121801"` | no |
 | <a name="input_secret_arn"></a> [secret\_arn](#input\_secret\_arn) | ARN of the secret holding the Datadog API key. Takes precedence over api\_key variable | `string` | `null` | no |
@@ -32,5 +32,5 @@ No resources.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_install_sh"></a> [install\_sh](#output\_install\_sh) | The installation script for the Datadog agentless-scanner |
+| <a name="output_install_sh"></a> [install\_sh](#output\_install\_sh) | The installation script for the Datadog agentless scanner |
 <!-- END_TF_DOCS -->
