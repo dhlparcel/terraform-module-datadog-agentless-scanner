@@ -11,7 +11,7 @@ variable "iam_role_path" {
 }
 
 variable "account_roles" {
-  description = "List of cross accounts roles ARN that the Datadog agentless-scanner can assume"
+  description = "List of cross accounts roles ARN that the Datadog agentless scanner can assume"
   type        = list(string)
   default     = []
 }

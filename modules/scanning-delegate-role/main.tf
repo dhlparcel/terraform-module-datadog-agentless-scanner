@@ -236,7 +236,7 @@ data "aws_iam_policy_document" "assume_role_policy" {
 resource "aws_iam_role" "role" {
   name        = var.iam_role_name
   path        = var.iam_role_path
-  description = "Role assumed by the Datadog Agentless-Scanner agent to perform scans"
+  description = "Role assumed by the Datadog Agentless scanner agent to perform scans"
 
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 
