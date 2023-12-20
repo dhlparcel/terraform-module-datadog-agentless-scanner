@@ -36,10 +36,6 @@ resource "aws_iam_instance_profile" "profile" {
   path = var.iam_role_path
 
   tags = merge(var.tags, local.dd_tags)
-
-  lifecycle {
-    create_before_destroy = true
-  }
 }
 
 data "aws_iam_policy_document" "scanner_policy_document" {
