@@ -14,7 +14,8 @@ DD_API_KEY=${api_key}
 %{ endif }
 
 # Install the agent
-DD_SITE="${site}" \
+DD_API_KEY=$DD_API_KEY \
+  DD_SITE="${site}" \
   DD_HOSTNAME="${hostname}" \
   DD_REPO_URL="${agent_repo_url}" \
   DD_AGENT_DIST_CHANNEL="beta" \
