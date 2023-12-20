@@ -1,10 +1,9 @@
 #!/bin/bash
-
-set -x
+set -u
 set -e
+set -o pipefail
 
 echo "${hostname}" > /etc/hostname
-
 
 %{ if api_key_secret_arn != null }
 apt install awscli
