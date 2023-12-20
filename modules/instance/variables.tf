@@ -1,5 +1,5 @@
 variable "name" {
-  description = "Name to be used on EC2 instance created"
+  description = "Name prefix to be used on EC2 instance created"
   type        = string
   default     = "DatadogAgentlessScanner"
 }
@@ -19,12 +19,6 @@ variable "user_data" {
 variable "subnet_id" {
   description = "The VPC Subnet ID to launch in"
   type        = string
-}
-
-variable "availability_zone" {
-  description = "AZ to start the instance in"
-  type        = string
-  default     = null
 }
 
 variable "vpc_security_group_ids" {
@@ -47,7 +41,13 @@ variable "key_name" {
 variable "monitoring" {
   description = "If true, the launched EC2 instance will have detailed monitoring enabled"
   type        = bool
-  default     = null
+  default     = false
+}
+
+variable "asg_size" {
+  description = "Size of the autoscaling group the instance is in (i.e. number of instances to run)"
+  type        = number
+  default     = 1
 }
 
 variable "tags" {

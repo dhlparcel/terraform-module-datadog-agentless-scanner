@@ -22,29 +22,79 @@ data "aws_ami" "al2023" {
   }
 }
 
-resource "aws_instance" "instance" {
-  ami           = data.aws_ami.al2023.id
-  instance_type = var.instance_type
-
-  user_data                   = var.user_data
-  user_data_replace_on_change = true
-
-  availability_zone      = var.availability_zone
-  subnet_id              = var.subnet_id
+resource "aws_launch_template" "launch_template" {
+  name_prefix            = "DatadogAgentlessScannerLaunchTemplate"
+  image_id               = data.aws_ami.al2023.id
+  instance_type          = var.instance_type
+  user_data              = base64encode(var.user_data)
   vpc_security_group_ids = var.vpc_security_group_ids
+  key_name               = var.key_name
 
-  key_name             = var.key_name
-  iam_instance_profile = var.iam_instance_profile
-  monitoring           = var.monitoring
+  block_device_mappings {
+    device_name = data.aws_ami.al2023.root_device_name
+    ebs {
+      encrypted = true
+    }
+  }
+
+  monitoring {
+    enabled = var.monitoring
+  }
+
+  iam_instance_profile {
+    name = var.iam_instance_profile
+  }
 
   metadata_options {
     http_tokens = "required"
   }
 
-  root_block_device {
-    encrypted = true
+  # Tag created instances, volumes and network interface at launch
+  dynamic "tag_specifications" {
+    for_each = toset(["instance", "volume", "network-interface"])
+    content {
+      resource_type = tag_specifications.value
+      tags = merge(
+        var.tags,
+        local.dd_tags,
+        # add a Name tag for instances only
+        tag_specifications.value == "instance" ? { "Name" = var.name } : {}
+      )
+    }
   }
 
-  tags        = merge({ "Name" = var.name }, var.tags, local.dd_tags)
-  volume_tags = merge({ "Name" = var.name }, var.tags, local.dd_tags)
+  tags = merge(var.tags, local.dd_tags)
+
+}
+
+resource "aws_autoscaling_group" "asg" {
+  name             = "datadog-agentless-scanner-asg"
+  min_size         = var.asg_size
+  max_size         = var.asg_size
+  desired_capacity = var.asg_size
+
+  vpc_zone_identifier = [var.subnet_id]
+
+  launch_template {
+    id      = aws_launch_template.launch_template.id
+    version = aws_launch_template.launch_template.latest_version
+  }
+
+  instance_refresh {
+    strategy = "Rolling"
+    preferences {
+      # Whenever the launch template changes, allow replacing instances all at once
+      min_healthy_percentage = 0
+    }
+  }
+
+  # aws_autoscaling_group doesn't have a "tags" attribute, but instead a "tag" block
+  dynamic "tag" {
+    for_each = merge({ "Name" = "DatadogAgentlessScannerASG" }, var.tags, local.dd_tags)
+    content {
+      key                 = tag.key
+      value               = tag.value
+      propagate_at_launch = false # tagging is handled by the launch template, here we only tag the ASG itself
+    }
+  }
 }
