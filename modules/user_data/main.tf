@@ -1,3 +1,5 @@
+data "aws_region" "current" {}
+
 resource "terraform_data" "template" {
   lifecycle {
     precondition {
@@ -12,5 +14,6 @@ resource "terraform_data" "template" {
     site               = var.site,
     scanner_version    = var.scanner_version,
     agent_repo_url     = var.agent_repo_url,
+    region             = data.aws_region.current.name,
   })
 }
