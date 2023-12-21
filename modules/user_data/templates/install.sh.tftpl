@@ -8,7 +8,7 @@ echo "${hostname}" > /etc/hostname
 
 %{ if api_key_secret_arn != null }
 apt install awscli
-DD_API_KEY=$(aws secretsmanager get-secret-value ${api_key_secret_arn} --query SecretString)
+DD_API_KEY=$(aws secretsmanager get-secret-value --secret-id "${api_key_secret_arn}" --query SecretString)
 %{ else }
 DD_API_KEY=${api_key}
 %{ endif }
