@@ -22,7 +22,7 @@ No modules.
 |------|------|
 | [aws_autoscaling_group.asg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_group) | resource |
 | [aws_launch_template.launch_template](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template) | resource |
-| [aws_ami.al2023](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami) | data source |
+| [aws_ami.ubuntu2204](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami) | data source |
 
 ## Inputs
 
@@ -30,6 +30,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_asg_size"></a> [asg\_size](#input\_asg\_size) | Size of the autoscaling group the instance is in (i.e. number of instances to run) | `number` | `1` | no |
 | <a name="input_iam_instance_profile"></a> [iam\_instance\_profile](#input\_iam\_instance\_profile) | IAM Instance Profile to launch the instance with. Specified as the name of the Instance Profile | `string` | n/a | yes |
+| <a name="input_instance_root_volume_size"></a> [instance\_root\_volume\_size](#input\_instance\_root\_volume\_size) | The instance root volume size in GiB | `number` | `30` | no |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | The type of instance | `string` | `"t4g.large"` | no |
 | <a name="input_key_name"></a> [key\_name](#input\_key\_name) | Key name of the Key Pair to use for the instance; which can be managed using the `aws_key_pair` resource | `string` | `null` | no |
 | <a name="input_monitoring"></a> [monitoring](#input\_monitoring) | If true, the launched EC2 instance will have detailed monitoring enabled | `bool` | `false` | no |
