@@ -10,6 +10,12 @@ variable "instance_type" {
   default     = "t4g.large"
 }
 
+variable "instance_root_volume_size" {
+  description = "The instance root volume size in GiB"
+  type        = number
+  default     = 30
+}
+
 variable "user_data" {
   description = "The user data to provide when launching the instance"
   type        = string

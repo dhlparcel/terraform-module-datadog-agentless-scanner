@@ -5,9 +5,9 @@ locals {
   }
 }
 
-data "aws_ami" "al2023" {
+data "aws_ami" "ubuntu2204" {
   most_recent = true
-  owners      = ["099720109477"]
+  owners      = ["099720109477"] # Canonical
   filter {
     name   = "architecture"
     values = ["arm64"]
@@ -24,16 +24,19 @@ data "aws_ami" "al2023" {
 
 resource "aws_launch_template" "launch_template" {
   name_prefix            = "DatadogAgentlessScannerLaunchTemplate"
-  image_id               = data.aws_ami.al2023.id
+  image_id               = data.aws_ami.ubuntu2204.id
   instance_type          = var.instance_type
   user_data              = base64encode(var.user_data)
   vpc_security_group_ids = var.vpc_security_group_ids
   key_name               = var.key_name
 
   block_device_mappings {
-    device_name = data.aws_ami.al2023.root_device_name
+    device_name = data.aws_ami.ubuntu2204.root_device_name
     ebs {
-      encrypted = true
+      delete_on_termination = true
+      encrypted             = true
+      volume_size           = var.instance_root_volume_size
+      volume_type           = "gp2"
     }
   }
 
@@ -64,7 +67,6 @@ resource "aws_launch_template" "launch_template" {
   }
 
   tags = merge(var.tags, local.dd_tags)
-
 }
 
 resource "aws_autoscaling_group" "asg" {
