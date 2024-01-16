@@ -5,33 +5,16 @@ locals {
   }
 }
 
-data "aws_ami" "ubuntu2204" {
-  most_recent = true
-  owners      = ["099720109477"] # Canonical
-  filter {
-    name   = "architecture"
-    values = ["arm64"]
-  }
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-arm64-server-*"]
-  }
-}
-
 resource "aws_launch_template" "launch_template" {
   name_prefix            = "DatadogAgentlessScannerLaunchTemplate"
-  image_id               = data.aws_ami.ubuntu2204.id
+  image_id               = var.instance_image_id
   instance_type          = var.instance_type
   user_data              = base64encode(var.user_data)
   vpc_security_group_ids = var.vpc_security_group_ids
   key_name               = var.key_name
 
   block_device_mappings {
-    device_name = data.aws_ami.ubuntu2204.root_device_name
+    device_name = "/dev/sda1"
     ebs {
       delete_on_termination = true
       encrypted             = true
@@ -81,6 +64,10 @@ resource "aws_autoscaling_group" "asg" {
     id      = aws_launch_template.launch_template.id
     version = aws_launch_template.launch_template.latest_version
   }
+
+  # Instances are terminated every 24 hours and recreated with latest AMI.
+  # This allows automated upgrade of our instances baseline.
+  max_instance_lifetime = 24 * 3600
 
   instance_refresh {
     strategy = "Rolling"
