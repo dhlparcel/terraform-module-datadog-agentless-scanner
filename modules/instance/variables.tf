@@ -10,6 +10,12 @@ variable "instance_type" {
   default     = "t4g.large"
 }
 
+variable "instance_image_id" {
+  description = "The Image ID (aka. AMI) used as baseline for the instance - SSM parameter path is allowed"
+  type        = string
+  default     = "resolve:ssm:/aws/service/canonical/ubuntu/server/22.04/stable/current/arm64/hvm/ebs-gp2/ami-id"
+}
+
 variable "instance_root_volume_size" {
   description = "The instance root volume size in GiB"
   type        = number
