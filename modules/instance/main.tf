@@ -53,7 +53,7 @@ resource "aws_launch_template" "launch_template" {
 }
 
 resource "aws_autoscaling_group" "asg" {
-  name             = "datadog-agentless-scanner-asg"
+  name_prefix      = "datadog-agentless-scanner-asg"
   min_size         = var.asg_size
   max_size         = var.asg_size
   desired_capacity = var.asg_size
