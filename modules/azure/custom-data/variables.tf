@@ -22,12 +22,34 @@ variable "client_id" {
   nullable    = false
 }
 
+variable "scanner_version" {
+  description = "Specifies the version of the scanner to install"
+  type        = string
+  default     = "0.11"
+  validation {
+    condition     = can(regex("^[0-9]+\\.[0-9]+$", var.scanner_version))
+    error_message = "The scanner version must be in the format of X.Y"
+  }
+}
+
 variable "scanner_channel" {
-  description = "Channel of the scanner to install from (stable or beta)"
+  description = "Specifies the channel to use for installing the scanner"
   type        = string
   default     = "stable"
   validation {
     condition     = contains(["stable", "beta"], var.scanner_channel)
     error_message = "The scanner channel must be either 'stable' or 'beta'"
   }
+}
+
+variable "scanner_configuration" {
+  description = "Specifies a custom configuration for the scanner. The specified object will be passed directly as a configuration input for the scanner."
+  type        = any
+  default     = {}
+}
+
+variable "agent_configuration" {
+  description = "Specifies a custom configuration for the datadog-agent. The specified object will be passed directly as a configuration input for the datadog-agent."
+  type        = any
+  default     = {}
 }
