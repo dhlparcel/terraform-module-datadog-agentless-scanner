@@ -5,5 +5,5 @@ output "install_sh" {
 
 output "scanner_version" {
   description = "The version of the Datadog Agentless Scanner installed"
-  value       = local.scanner_version
+  value       = var.scanner_version
 }
