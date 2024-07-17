@@ -34,8 +34,15 @@ variable "location" {
   nullable    = false
 }
 
+variable "create_roles" {
+  description = "Specifies whether to create the role definitions and assignments required to scan resources."
+  type        = bool
+  nullable    = false
+  default     = true
+}
+
 variable "scan_scopes" {
-  description = "The set of scopes that the Agentless Scanner should be allowed to scan. Defaults to the scanner subscription."
+  description = "The set of scopes that the Datadog Agentless Scanner is allowed to scan. Defaults to the current subscription."
   type        = list(string)
   nullable    = false
   default     = []

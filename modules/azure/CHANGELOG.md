@@ -2,6 +2,7 @@
 
 ## Version TBD
 
+- Split off role definition and assignment into a separate module
 - Upgrade scanner instances to Ubuntu Server 24.04
 - Replace scanner instances every 24 hours
 - Enable automatic instance repairs

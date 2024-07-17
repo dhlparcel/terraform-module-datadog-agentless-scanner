@@ -48,11 +48,17 @@ module "custom_data" {
 module "managed_identity" {
   source              = "./managed-identity"
   resource_group_name = module.resource_group.resource_group.name
-  resource_group_id   = module.resource_group.resource_group.id
   location            = var.location
-  api_key_secret_id   = one(data.azapi_resource_id.api_key_id[*].resource_id)
-  scan_scopes         = coalescelist(var.scan_scopes, [data.azurerm_subscription.current.id])
   tags                = var.tags
+}
+
+module "roles" {
+  count             = var.create_roles ? 1 : 0
+  source            = "./roles"
+  resource_group_id = module.resource_group.resource_group.id
+  principal_id      = module.managed_identity.identity.principal_id
+  api_key_secret_id = one(data.azapi_resource_id.api_key_id[*].resource_id)
+  scan_scopes       = coalescelist(var.scan_scopes, [data.azurerm_subscription.current.id])
 }
 
 module "virtual_machine" {
