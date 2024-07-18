@@ -1,4 +1,4 @@
 output "identity" {
-  description = "The managed identity to be assigned to the Datadog Agentless Scanner virtual machine instances"
-  value       = azurerm_user_assigned_identity.managed_identity
+  description = "The user-assigned managed identity to be used by the Datadog Agentless Scanner virtual machine instances."
+  value       = azurerm_user_assigned_identity.identity
 }
