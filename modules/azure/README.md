@@ -38,20 +38,20 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_admin_ssh_key"></a> [admin\_ssh\_key](#input\_admin\_ssh\_key) | SSH public key of the admin user | `string` | n/a | yes |
-| <a name="input_api_key"></a> [api\_key](#input\_api\_key) | Specifies the API key required by the Agentless Scanner to submit vulnerabilities to Datadog | `string` | `null` | no |
+| <a name="input_admin_ssh_key"></a> [admin\_ssh\_key](#input\_admin\_ssh\_key) | SSH public key of the admin user. | `string` | n/a | yes |
+| <a name="input_api_key"></a> [api\_key](#input\_api\_key) | Specifies the API key required by the Agentless Scanner to submit vulnerabilities to Datadog. | `string` | `null` | no |
 | <a name="input_api_key_secret_id"></a> [api\_key\_secret\_id](#input\_api\_key\_secret\_id) | The versionless resource ID of the Azure Key Vault secret holding the Datadog API key. Ignored if api\_key is specified. | `string` | `null` | no |
-| <a name="input_bastion"></a> [bastion](#input\_bastion) | Create a bastion in the subnet | `bool` | `false` | no |
+| <a name="input_bastion"></a> [bastion](#input\_bastion) | Create a bastion in the subnet. | `bool` | `false` | no |
 | <a name="input_create_roles"></a> [create\_roles](#input\_create\_roles) | Specifies whether to create the role definitions and assignments required to scan resources. | `bool` | `true` | no |
-| <a name="input_location"></a> [location](#input\_location) | The location where the Datadog Agentless Scanner resources will be created | `string` | n/a | yes |
-| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | The name of the resource group where the Datadog Agentless Scanner resources will be created | `string` | n/a | yes |
+| <a name="input_location"></a> [location](#input\_location) | The location where the Datadog Agentless Scanner resources will be created. | `string` | n/a | yes |
+| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | The name of the resource group where the Datadog Agentless Scanner resources will be created. | `string` | n/a | yes |
 | <a name="input_scan_scopes"></a> [scan\_scopes](#input\_scan\_scopes) | The set of scopes that the Datadog Agentless Scanner is allowed to scan. Defaults to the current subscription. | `list(string)` | `[]` | no |
 | <a name="input_site"></a> [site](#input\_site) | By default the Agent sends its data to Datadog US site. If your organization is on another site, you must update it. See https://docs.datadoghq.com/getting_started/site/ | `string` | `null` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | A map of additional tags to add to the resources created | `map(string)` | `{}` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | A map of additional tags to add to the resources created. | `map(string)` | `{}` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_vnet"></a> [vnet](#output\_vnet) | The Azure Virtual Network created for the Datadog agentless scanner |
+| <a name="output_vnet"></a> [vnet](#output\_vnet) | The Azure Virtual Network created for the Datadog agentless scanner. |
 <!-- END_TF_DOCS -->
