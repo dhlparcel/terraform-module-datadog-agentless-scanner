@@ -1,16 +1,16 @@
 variable "resource_group_name" {
-  description = "The name of the resource group where the Datadog Agentless Scanner resources will be created"
+  description = "The name of the resource group where the Datadog Agentless Scanner resources will be created."
   type        = string
   nullable    = false
 }
 
 variable "admin_ssh_key" {
-  description = "SSH public key of the admin user"
+  description = "SSH public key of the admin user."
   type        = string
 }
 
 variable "api_key" {
-  description = "Specifies the API key required by the Agentless Scanner to submit vulnerabilities to Datadog"
+  description = "Specifies the API key required by the Agentless Scanner to submit vulnerabilities to Datadog."
   type        = string
   sensitive   = true
   default     = null
@@ -29,7 +29,7 @@ variable "site" {
 }
 
 variable "location" {
-  description = "The location where the Datadog Agentless Scanner resources will be created"
+  description = "The location where the Datadog Agentless Scanner resources will be created."
   type        = string
   nullable    = false
 }
@@ -49,14 +49,14 @@ variable "scan_scopes" {
 }
 
 variable "bastion" {
-  description = "Create a bastion in the subnet"
+  description = "Create a bastion in the subnet."
   type        = bool
   default     = false
   nullable    = false
 }
 
 variable "tags" {
-  description = "A map of additional tags to add to the resources created"
+  description = "A map of additional tags to add to the resources created."
   type        = map(string)
   default     = {}
 }
