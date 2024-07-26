@@ -17,8 +17,9 @@ echo "nbd" > /etc/modules-load.d/nbd.conf
 echo "options nbd nbds_max=128" > /etc/modprobe.d/nbd.conf
 
 # Install requirements
-apt update
-apt install -y nbd-client
+dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+yum install -y nbd
+# yum update -y # Do not do this to speed it up a bit.
 
 re='@Microsoft.KeyVault\(SecretUri=(https://.*)\)'
 if [[ "${api_key}" =~ $re ]]; then
@@ -29,7 +30,7 @@ if [[ "${api_key}" =~ $re ]]; then
   az login --identity --username "${azure_client_id}"
   DD_API_KEY=$(az keyvault secret show --id "$API_KEY_URI" --query value --output tsv)
 else
-  DD_API_KEY=$api_key
+  DD_API_KEY="${api_key}"
 fi
 
 # Append the last 6 bytes of the VM UUID to prevent hostname collisions
@@ -48,22 +49,30 @@ DD_API_KEY="$DD_API_KEY" \
   bash -c "$(curl -L https://s3.amazonaws.com/dd-agent/scripts/install_script_agent7.sh)"
 
 # Install the agentless-scanner
-echo "deb [signed-by=/usr/share/keyrings/datadog-archive-keyring.gpg] https://apt.datadoghq.com/ $DD_AGENTLESS_CHANNEL agentless-scanner" >> /etc/apt/sources.list.d/datadog.list
-apt update
+cat <<EOF > /etc/yum.repos.d/datadog-agentless.repo
+[datadog-agentless]
+name = Datadog, Inc.
+baseurl = https://yum.datadoghq.com/stable/agentless-scanner/x86_64/
+enabled=1
+gpgcheck=1
+repo_gpgcheck=0
+priority=1
+gpgkey=https://keys.datadoghq.com/DATADOG_RPM_KEY_CURRENT.public
+       https://keys.datadoghq.com/DATADOG_RPM_KEY_4F09D16B.public
+       https://keys.datadoghq.com/DATADOG_RPM_KEY_B01082D3.public
+       https://keys.datadoghq.com/DATADOG_RPM_KEY_FD4BF915.public
+       https://keys.datadoghq.com/DATADOG_RPM_KEY_E09422B3.public
+
+EOF
+
+
 agentless_pkg_pattern="([[:digit:]]:)?$DD_AGENTLESS_VERSION(\.[[:digit:]]+){0,1}(~rc\.[[:digit:]]+)?(-[[:digit:]])?"
-agentless_version_custom="$(apt-cache madison datadog-agentless-scanner | grep -E "$agentless_pkg_pattern" -om1)" || true
+agentless_version_custom="$(yum list datadog-agentless-scanner --showduplicates | grep -E "$agentless_pkg_pattern" -om1)" || true
 if [ -z "$agentless_version_custom" ]; then
   printf "Could not find a version of datadog-agentless-scanner from %s" "$DD_AGENTLESS_VERSION"
   exit 1
 fi
-apt install -y "datadog-agentless-scanner=$agentless_version_custom"
-
-# Adding automatic reboot on kernel updates
-cat << EOF >> /etc/apt/apt.conf.d/50unattended-upgrades
-Unattended-Upgrade::Automatic-Reboot "true";
-Unattended-Upgrade::Automatic-Reboot-WithUsers "true";
-Unattended-Upgrade::Automatic-Reboot-Time "now";
-EOF
+yum install -vy "datadog-agentless-scanner-$agentless_version_custom"
 
 # Activate agentless scanner logging
 mkdir -p /etc/datadog-agent/conf.d/agentless-scanner.d
