@@ -63,8 +63,8 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
     type                 = "ApplicationHealthLinux"
     type_handler_version = "2.0"
     settings = jsonencode({
-      protocol          = "http",
-      port              = 6253,
+      protocol          = "http"
+      port              = 6253
       requestPath       = "/health"
       intervalInSeconds = 10
       numberOfProbes    = 3
