@@ -67,7 +67,7 @@ EOF
 
 
 agentless_pkg_pattern="([[:digit:]]:)?$DD_AGENTLESS_VERSION(\.[[:digit:]]+){0,1}(~rc\.[[:digit:]]+)?(-[[:digit:]])?"
-agentless_version_custom="$(yum list datadog-agentless-scanner --showduplicates |sort -nr | grep -E "$agentless_pkg_pattern" -om1)" || true
+agentless_version_custom="$(yum list datadog-agentless-scanner --showduplicates | grep -E "$agentless_pkg_pattern" -o | sort -Vr | head -n1)" || true
 if [ -z "$agentless_version_custom" ]; then
   printf "Could not find a version of datadog-agentless-scanner from %s" "$DD_AGENTLESS_VERSION"
   exit 1
